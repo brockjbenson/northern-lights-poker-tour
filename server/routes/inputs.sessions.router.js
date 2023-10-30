@@ -253,7 +253,7 @@ router.put("/cash-games-reset/:id", async (req, res) => {
   try {
     const queryText = `UPDATE "cash_games" 
     SET "net_profit" = $1, "gross_winnings" = $2, "gross_losses" = $3, "avg_win" = $4, 
-    "avg_loss" = $5, "avg_net" = $6, "wins" = $7, "losses" = $8, "sessions_played" = $9,
+    "avg_loss" = $5, "avg_net_profit" = $6, "wins" = $7, "losses" = $8, "sessions_played" = $9,
     "average_buy_in" = $10, "win_percentage" = $11
     WHERE "player_id" = $12;`;
     pool
