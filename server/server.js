@@ -14,6 +14,7 @@ const sessionsRouter = require("./routes/sessions.router");
 const playersRouter = require("./routes/players.router");
 
 // Body parser middleware
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
