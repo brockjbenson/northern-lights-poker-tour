@@ -5,4 +5,17 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
+router.get("/:id", (req, res) => {
+  const queryText = `SELECT * FROM "sessions" WHERE "player_id" = $1;`;
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log("Error retreiving player", error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

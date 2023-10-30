@@ -1,19 +1,33 @@
 .nav-container {
-  max-width: 1400px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  height: 8em;
+  backdrop-filter: blur(100px);
+  background: url("https://res.cloudinary.com/du0p96v5o/image/upload/v1698709875/nav-bg_jnci1p.webp");
+  background-size: cover;
+
+  .nav-body {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 97%;
+    background-color: #222222;
+    align-items: center;
+  }
   .nav-left {
     display: flex;
     align-items: center;
+    padding: 0 5em;
 
     img {
-      width: 7em;
+      width: 5em;
       margin: 1em;
     }
   }
 
   .nav-right {
+    padding: 0 5em;
     .nav-links {
       display: flex;
 
@@ -21,7 +35,7 @@
         color: var(--light);
         margin: 1em;
         padding-block: 0.5em;
-        font-size: 1.5em;
+        font-size: 1.25em;
         text-decoration: none;
         position: relative;
 

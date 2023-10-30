@@ -6,7 +6,8 @@ import {
   Switch,
 } from "react-router-dom";
 import "./Components/Styles/App.scss";
-import Home from "./Components/Pages/Home.jsx";
+import Home from "./Components/Pages/Home/Home.jsx";
+import StatsDashboard from "./Components/Pages/Stats/StatsDashboard";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
           <Redirect exact from="/" to="/home" />
           <Route path="/home">
             <Home />
+          </Route>
+          <Route path="/stats">
+            <StatsDashboard />
           </Route>
         </Switch>
       </div>
