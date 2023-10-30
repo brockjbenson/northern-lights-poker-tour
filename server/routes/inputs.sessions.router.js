@@ -293,37 +293,6 @@ router.post("/session/:id", async (req, res) => {
   }
 });
 
-// async function sessionMath(id) {
-//   try {
-//     const response = await axios.get(
-//       `http://localhost:5000/api/sessions/inputs/session/${Number(id)}`
-//     );
-//     console.log(response.data);
-//   } catch (error) {
-//     console.log(`Error adding new session math`, error);
-//     res.sendStatus(500); // Server error
-//   }
-// }
-
-// PUT route for updating a player
-
-// router.get("/session/:id", async (req, res) => {
-//   const queryText = `SELECT * FROM "sessions" WHERE "player_id" = $1;`;
-//   if (req.isAuthenticated()) {
-//     pool
-//       .query(queryText, [req.params.id])
-//       .then((result) => {
-//         res.send(result.rows);
-//       })
-//       .catch((error) => {
-//         console.log("Error retreiving player", error);
-//         res.sendStatus(500);
-//       });
-//   } else {
-//     res.sendStatus(401);
-//   }
-// });
-
 router.put("/:id", (req, res) => {
   const player = req.body;
   const queryText = `UPDATE "players" SET "first_name" = $1, "last_name" = $2 WHERE "id" = $3;`;
