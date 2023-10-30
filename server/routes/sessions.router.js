@@ -6,5 +6,4 @@ const {
 } = require("../modules/authentication-middleware");
 
 
-
 module.exports = router;
