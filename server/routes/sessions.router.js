@@ -5,5 +5,4 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-
 module.exports = router;
