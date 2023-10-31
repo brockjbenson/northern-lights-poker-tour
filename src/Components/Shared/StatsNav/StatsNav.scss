@@ -1,0 +1,23 @@
+.stats-nav {
+  width: 20em;
+  border-right: 1px solid var(--light);
+  height: 100%;
+}
+
+.stats-nav-btn {
+  display: flex;
+  align-items: center;
+  height: 5em;
+  width: 100%;
+  justify-content: center;
+  transition: 0.2s;
+  &:hover {
+    background-color: #222222;
+    border: 1px solid var(--light);
+  }
+  a {
+    text-decoration: none;
+    color: var(--light);
+    font-size: 1.5em;
+  }
+}
