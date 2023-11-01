@@ -1,23 +1,21 @@
 .stats-container {
   background-color: #222222;
+  display: flex;
 }
 
 .stats-body {
-  width: 90%;
-  margin-inline: auto;
-  margin-top: 2.5em;
+  width: 100%;
   h1 {
     text-align: center;
     color: var(--light);
-    font-size: 2em;
-    width: 50%;
+    font-size: 3em;
     margin-inline: auto;
     border-radius: 10px;
-    background-color: #424242;
-    height: 4em;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 1em;
+    text-align: center;
   }
 }
 

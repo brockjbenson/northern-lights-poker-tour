@@ -1,8 +1,13 @@
 :root {
-  --primary: #23a4cf;
-  --light: #d0dfe0;
+  --primary: #4386a7;
+  --light: #eeeeee;
   --secondary: #195396;
+  --ft-l: 300;
+  --ft-r: 400;
+  --ft-b: 600;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap");
 
 html,
 body,
@@ -93,6 +98,7 @@ video {
 body {
   max-width: 100vw;
   background-color: #222222;
+  font-family: "Raleway", sans-serif;
 }
 
 ol,

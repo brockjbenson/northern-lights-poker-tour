@@ -30,6 +30,11 @@ export default function Nav() {
                   MEMBERS
                 </Link>
               </li>
+              <li>
+                <Link className="nav-link" to={"/admin"}>
+                  ADMIN
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
