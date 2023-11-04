@@ -1,8 +1,13 @@
 .stats-nav {
-  width: 20em;
+  width: 200px;
+  min-width: 200px;
   height: 100vh;
   background: url("https://res.cloudinary.com/du0p96v5o/image/upload/a_90/v1698709875/nav-bg_jnci1p.webp");
   background-size: cover;
+}
+
+.stats-nav-menu-container {
+  margin: 2em 0;
 }
 
 .stats-btn-text {
@@ -99,6 +104,7 @@
     margin-left: 1em;
     li {
       width: 70px;
+      padding-right: 30px;
     }
   }
 
