@@ -11,7 +11,7 @@ export default function StatsDashboard() {
   const players = useSelector((state) => state.players.allPlayerReducer);
   const allCashGames = useSelector((state) => state.cashGames.allCashGames);
   const [statsActive, setStatsActive] = useState(false);
-  const [activeAllStats, setActiveAllStats] = useState(false);
+  const [activeAllStats, setActiveAllStats] = useState(true);
   const [activeIndividualStats, setActiveIndividualStats] = useState(false);
   const [statsClass, setStatsClass] = useState("stats-nav-btn");
   const [showStandings, setShowStandings] = useState(false);
@@ -37,6 +37,7 @@ export default function StatsDashboard() {
 
   const dashboardProps = {
     players: players,
+    allCashGames: allCashGames,
   };
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function StatsDashboard() {
         <StatsNav navProps={navProps} />
         <div className="stats-body">
           <h1>NLPT Stats Home</h1>
-          {activeAllStats && <AllStatsComponents />}
+          {activeAllStats && <AllStatsComponents props={dashboardProps} />}
         </div>
       </div>
     </>

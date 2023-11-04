@@ -1,0 +1,27 @@
+.cash-component-container {
+  width: 90%;
+  margin: 2em auto;
+
+  .cash-games-table {
+    background-color: #222222;
+    padding: 0.5em;
+    box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.4);
+    border: 1px solid #424242;
+  }
+
+  .cash-white {
+    color: white;
+    font-size: 1.15em;
+  }
+  .cash-negative {
+    color: red;
+    font-size: 1.15em;
+  }
+
+  .cash-positive {
+    color: rgb(0, 201, 0);
+    font-size: 1.15em;
+  }
+}
