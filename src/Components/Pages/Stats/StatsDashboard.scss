@@ -1,5 +1,5 @@
 .stats-container {
-  background-color: #222222;
+  background-color: var(--light);
   display: flex;
 }
 
@@ -7,7 +7,7 @@
   width: 100%;
   h1 {
     text-align: center;
-    color: var(--light);
+    color: var(--dark);
     font-size: 2em;
     margin-inline: auto;
     border-radius: 10px;
@@ -17,11 +17,4 @@
     margin-top: 0.5em;
     text-align: center;
   }
-}
-
-.stats-main {
-  display: flex;
-  background-color: #424242;
-  border-radius: 10px;
-  margin-top: 2em;
 }

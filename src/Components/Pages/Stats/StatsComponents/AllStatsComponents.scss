@@ -3,25 +3,29 @@
   margin: 2em auto;
 
   .cash-games-table {
-    background-color: #222222;
+    background-color: var(--light);
     padding: 0.5em;
-    box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.4);
-    border: 1px solid #424242;
+    // box-shadow: 0px 1px 9px 3px rgba(0, 0, 0, 0.37);
+    // -webkit-box-shadow: 0px 1px 9px 3px rgba(0, 0, 0, 0.37);
+    // -moz-box-shadow: 0px 1px 9px 3px rgba(0, 0, 0, 0.37);
+  }
+
+  .bold {
+    font-weight: var(--ft-b);
   }
 
   .cash-white {
-    color: white;
+    color: var(--dark);
     font-size: 1.15em;
+    // font-style: italic;
   }
   .cash-negative {
-    color: red;
+    color: rgb(182, 0, 0);
     font-size: 1.15em;
   }
 
   .cash-positive {
-    color: rgb(0, 201, 0);
+    color: rgb(0, 117, 0);
     font-size: 1.15em;
   }
 }

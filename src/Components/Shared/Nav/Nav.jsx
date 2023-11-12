@@ -12,6 +12,7 @@ export default function Nav() {
               src="https://ik.imagekit.io/nlpt/Logos/nlpt-logo.png?updatedAt=1698203272490"
               alt="NLPT"
             />
+            <h1>NLPT</h1>
           </div>
           <div className="nav-right">
             <ul className="nav-links">

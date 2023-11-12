@@ -11,35 +11,29 @@ const { ca } = require("date-fns/locale");
 
 router.get("/", (req, res) => {
   const queryText = `SELECT * FROM "session_inputs";`;
-  if (req.isAuthenticated()) {
-    pool
-      .query(queryText)
-      .then((result) => {
-        res.send(result.rows);
-      })
-      .catch((error) => console.log("Error retreiving all players"));
-  } else {
-    res.sendStatus(401);
-  }
+
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => console.log("Error retreiving all players"));
 });
 
 // GET route for sessions from specific player
 
 router.get("/:id", (req, res) => {
   const queryText = `SELECT * FROM "session_inputs" WHERE "player_id" = $1;`;
-  if (req.isAuthenticated()) {
-    pool
-      .query(queryText, [req.params.id])
-      .then((result) => {
-        res.send(result.rows);
-      })
-      .catch((error) => {
-        console.log("Error retreiving player", error);
-        res.sendStatus(500);
-      });
-  } else {
-    res.sendStatus(401);
-  }
+
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log("Error retreiving player", error);
+      res.sendStatus(500);
+    });
 });
 
 router.get("/sessions/:id", (req, res) => {
@@ -64,18 +58,19 @@ router.post("/:id", async (req, res) => {
     const playerId = req.params.id;
 
     const queries = sessionInput.map((input) => {
-      const queryText = `INSERT INTO "session_inputs" ("buy_in", "cash_out", "buy_ins", "player_id", "week")
-    VALUES ($1, $2, $3, $4, $5) RETURNING ID;`;
+      const queryText = `INSERT INTO "session_inputs" ("buy_in", "cash_out", "buy_ins", "player_id", "season_id", "week")
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID;`;
       return pool.query(queryText, [
         input.buyIn,
         input.cashOut,
         input.buyIns,
         playerId,
+        input.seasonId,
         input.week,
       ]);
     });
 
-    await Promise.all([queries]);
+    await Promise.all(queries);
     await axios.post(
       `http://localhost:5000/api/sessions/inputs/session/${playerId}`,
       sessionInput
@@ -95,15 +90,22 @@ async function cashGamesUpdate(id) {
     const response = await axios.get(
       `http://localhost:5000/api/sessions/inputs/sessions/${id}`
     );
+    const inputs = await axios.get(
+      `http://localhost:5000/api/sessions/inputs/${id}`
+    );
     const sessions = response.data;
-    await cashGameMath(sessions, id);
+    const inputsData = inputs.data;
+    await cashGameMath(sessions, inputsData, id);
   } catch (error) {
     console.log("Error updating cash games", error);
   }
 }
 
-async function cashGameMath(arr, id) {
-  console.log("cashGameMath", arr);
+async function cashGameMath(arr, inpArr, id) {
+  // console.log("cashGameMath", arr);
+  // console.log(inpArr);
+
+  const seasonId = arr[0].season_id;
 
   // Net Profit Calculation
 
@@ -171,7 +173,7 @@ async function cashGameMath(arr, id) {
 
   // Buy Ins Per Session Calculation
 
-  const buyInsCount = arr.reduce((accum, current) => {
+  const buyInsCount = inpArr.reduce((accum, current) => {
     return accum + parseFloat(current.buy_ins);
   }, 0);
 
@@ -182,6 +184,10 @@ async function cashGameMath(arr, id) {
   } else {
     buyInsPerSession = 0.0;
   }
+
+  // Average Buy In Calculation
+
+  const avgBuyIn = buyInsPerSession * 25;
 
   // Average Net Profit Calculation
 
@@ -200,10 +206,14 @@ async function cashGameMath(arr, id) {
     sessionsPLayed: sessionsPLayed,
     averageWin: Number(averageWin.toFixed(2)),
     averageLoss: Number(averageLoss.toFixed(2)),
-    buyInsPerSession: buyInsPerSession,
+    buyInsPerSession: Number(buyInsPerSession.toFixed(2)),
     averageNetProfit: Number(averageNetProfit),
     winPercentage: winPercentage,
+    seasonId: seasonId,
+    avgBuyIn: Number(avgBuyIn.toFixed(2)),
   };
+
+  console.log("cashGameObject", cashGameObject);
 
   await axios.put(
     `http://localhost:5000/api/sessions/inputs/cash-games/${id}`,
@@ -213,15 +223,14 @@ async function cashGameMath(arr, id) {
 
 router.put("/cash-games/:id", async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   const cashGameObject = req.body;
   try {
     const queryText = `
     UPDATE "cash_games" 
     SET "net_profit" = $1, "gross_winnings" = $2, "gross_losses" = $3, "avg_win" = $4, 
     "avg_loss" = $5, "avg_net_profit" = $6, "wins" = $7, "losses" = $8, "sessions_played" = $9,
-    "average_buy_in" = $10, "win_percentage" = $11
-    WHERE "player_id" = $12;`;
+    "average_buy_in" = $10, "win_percentage" = $11, "buy_ins_per" = $12
+    WHERE "player_id" = $13 AND "season_id" = $14;`;
     pool
       .query(queryText, [
         cashGameObject.netProfit,
@@ -233,9 +242,11 @@ router.put("/cash-games/:id", async (req, res) => {
         cashGameObject.wins,
         cashGameObject.losses,
         cashGameObject.sessionsPLayed,
-        cashGameObject.buyInsPerSession,
+        cashGameObject.avgBuyIn,
         cashGameObject.winPercentage,
+        cashGameObject.buyInsPerSession,
         id,
+        cashGameObject.seasonId,
       ])
       .then((result) => {
         res.send(result.rows);
@@ -250,14 +261,15 @@ router.put("/cash-games/:id", async (req, res) => {
 
 router.put("/cash-games-reset/:id", async (req, res) => {
   const id = req.params.id;
+  const seasonId = req.body.seasonId;
   try {
     const queryText = `UPDATE "cash_games" 
     SET "net_profit" = $1, "gross_winnings" = $2, "gross_losses" = $3, "avg_win" = $4, 
     "avg_loss" = $5, "avg_net_profit" = $6, "wins" = $7, "losses" = $8, "sessions_played" = $9,
     "average_buy_in" = $10, "win_percentage" = $11
-    WHERE "player_id" = $12;`;
+    WHERE "player_id" = $12; AND "season_id" = $13`;
     pool
-      .query(queryText, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, id])
+      .query(queryText, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, id, seasonId])
       .then((result) => {
         res.send(result.rows);
       })
@@ -272,23 +284,24 @@ router.put("/cash-games-reset/:id", async (req, res) => {
 router.post("/session/:id", async (req, res) => {
   try {
     const sessionInput = req.body;
+
     const playerId = req.params.id;
 
     const queries = sessionInput.map((input) => {
-      const queryText = `INSERT INTO "sessions" ("net_profit", "week_number", "player_id", "buy_ins")
+      const queryText = `INSERT INTO "sessions" ("net_profit", "week_number", "player_id", "season_id")
     VALUES ($1, $2, $3, $4) RETURNING ID;`;
       return pool.query(queryText, [
         input.cashOut - input.buyIn,
         input.week,
         playerId,
-        input.buyIns,
+        input.seasonId,
       ]);
     });
 
     await Promise.all(queries);
     res.sendStatus(201);
   } catch (error) {
-    console.log(`Error adding new session input`, error);
+    console.log(`Error adding new session`, error);
     res.sendStatus(500); // Server error
   }
 });

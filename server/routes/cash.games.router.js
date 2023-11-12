@@ -11,7 +11,26 @@ router.get("/all", (req, res) => {
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((error) => console.log("Error retreiving all players"));
+    .catch((error) => console.log("Error retreiving all cash games", error));
+});
+
+router.get("/season/:id", (req, res) => {
+  const seasonId = req.params.seasonId;
+  const queryText = `SELECT *
+      FROM cash_games AS cg
+      JOIN players AS p ON cg.player_id = p.id;
+      WHERE cg.season_id = $1;`;
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) =>
+      console.log(
+        `Error retreiving all cash games from season: ${seasonId}`,
+        error
+      )
+    );
 });
 
 module.exports = router;

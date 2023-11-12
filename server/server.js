@@ -13,6 +13,7 @@ const sessionInputRouter = require("./routes/inputs.sessions.router");
 const sessionsRouter = require("./routes/sessions.router");
 const playersRouter = require("./routes/players.router");
 const cashGamesRouter = require("./routes/cash.games.router");
+const seasonRouter = require("./routes/season.router");
 
 // Body parser middleware
 
@@ -32,6 +33,7 @@ app.use("/api/cash-games", cashGamesRouter);
 app.use("/api/sessions/inputs", sessionInputRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/players", playersRouter);
+app.use("/api/season", seasonRouter);
 
 // Serve static files
 app.use(express.static("build"));

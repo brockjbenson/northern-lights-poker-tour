@@ -18,38 +18,38 @@ export default function AllStatsComponents({ props }) {
         <Table sx={{ minWidth: 650 }} aria-label="cash games table">
           <TableHead className="cash-table-head">
             <TableRow>
-              <TableCell className="cash-white">Player</TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold">Player</TableCell>
+              <TableCell className="cash-white bold" align="right">
                 Net Profit
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Profits
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Losses
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Session Net
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Avg Win
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Avg Loss
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Buy-ins Per
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Sessions
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Wins
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Losses
               </TableCell>
-              <TableCell className="cash-white" align="right">
+              <TableCell className="cash-white bold" align="right">
                 Win %
               </TableCell>
             </TableRow>

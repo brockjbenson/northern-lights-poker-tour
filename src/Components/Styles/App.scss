@@ -1,6 +1,7 @@
 :root {
   --primary: #4386a7;
-  --light: #eeeeee;
+  --light: #f6f4ec;
+  --dark: #222222;
   --secondary: #195396;
   --ft-l: 300;
   --ft-r: 400;
@@ -97,7 +98,7 @@ video {
 
 body {
   max-width: 100vw;
-  background-color: #222222;
+  background-color: var(--light);
   font-family: "Raleway", sans-serif;
 }
 
